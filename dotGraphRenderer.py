@@ -12,14 +12,14 @@ def createDotGraph(PT: PetriNet):
         return 't' + str(i)
     
     dot = graphviz.Digraph(comment='Graph')
-    np,nt = Wpt.shape
-    for i in range(np):
+    Np,Nt = Wpt.shape
+    for i in range(Np):
         dot.node(pstr(i))
-    for i in range(nt):
+    for i in range(Nt):
         dot.node(tstr(i),shape = 'box')
 
-    for p in range(np):
-        for t in range(nt):
+    for p in range(Np):
+        for t in range(Nt):
             if Wpt[p,t] != 0:
                 if Wpt[p,t] != 1:
                     dot.edge(pstr(p),tstr(t), label=str(Wpt[p,t]))

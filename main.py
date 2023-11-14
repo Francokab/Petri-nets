@@ -20,7 +20,6 @@ def main():
     M0 = np.array([1, 1, 0, 0, 0, 0])
 
     PT = PetriNet(Wpt,Wtp,M0)
-
     renderDotGraph(PT)
 
 if __name__ == "__main__":
