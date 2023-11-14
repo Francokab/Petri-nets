@@ -1,5 +1,6 @@
 import numpy as np
 from dotGraphRenderer import renderDotGraph
+from petriNetsClasses import PetriNet
 
 # P set of place : int from 0 to n-1
 # T set of transition : int from 0 to m-1
@@ -11,18 +12,23 @@ from dotGraphRenderer import renderDotGraph
     # I matrix n*m int, if p>I(p,t) then t can't happen
     # negative value are infinite
 
-Wpt = np.array([[1, 0, 0, 0],
-                [1, 0, 1, 0],
-                [0, 1, 0, 0],
-                [0, 0, 0, 1],
-                [0, 0, 0, 1],
-                [0, 0, 0, 0],],dtype=int)
+def main():
+    Wpt = np.array([[1, 0, 0, 0],
+                    [1, 0, 1, 0],
+                    [0, 1, 0, 0],
+                    [0, 0, 0, 1],
+                    [0, 0, 0, 1],
+                    [0, 0, 0, 0],],dtype=int)
 
-Wtp = np.array([[0, 1, 1, 1, 0, 0],
-                [1, 0, 0, 0, 0, 0],
-                [0, 0, 0, 0, 1, 0],
-                [0, 0, 0, 0, 1, 1],],dtype=int)
+    Wtp = np.array([[0, 1, 1, 1, 0, 0],
+                    [1, 0, 0, 0, 0, 0],
+                    [0, 0, 0, 0, 1, 0],
+                    [0, 0, 0, 0, 1, 1],],dtype=int)
 
+    PT = PetriNet(Wpt,Wtp)
 
-renderDotGraph(Wpt, Wtp)
+    renderDotGraph(PT)
+
+if __name__ == "__main__":
+    main()
 
