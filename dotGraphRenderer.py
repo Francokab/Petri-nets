@@ -1,8 +1,9 @@
 import numpy as np
 import graphviz
 from petriNetsClasses import PetriNet
+from node import Node
 
-def createDotGraph(PT: PetriNet):
+def create_dot_graph_petrinet(PT: PetriNet):
     Wpt = PT.Wpt
     Wtp = PT.Wtp
 
@@ -33,6 +34,24 @@ def createDotGraph(PT: PetriNet):
 
     return dot
 
-def renderDotGraph(PT: PetriNet):
-    dot = createDotGraph(PT)
+def create_dot_graph_tree(tree: Node):
+    dot = graphviz.Digraph(comment='Graph')
+    unprocessed : list[Node] = [tree]
+    dot.node(str(tree))
+    
+    def pstr(i):
+        return 'p' + str(i)
+    def tstr(i):
+        return 't' + str(i)
+    
+    while (unprocessed != []):
+        node = unprocessed[0]
+        for transition, new_node in node.transitions.items():
+            unprocessed.append(new_node)
+            dot.node(str(new_node))
+            dot.edge(str(node),str(new_node),label=tstr(transition))
+        unprocessed.remove(node)
+    return dot
+
+def render_dot_graph(dot):
     dot.render(directory='digraph-output', view=False) 
