@@ -1,5 +1,5 @@
 from dataclasses import dataclass
-from node import Node
+import node as nodelib
 import numpy as np
 
 @dataclass
@@ -30,11 +30,11 @@ class PetriNet:
     
     def construct_CT(self):
         # Initialize tree
-        tree = Node(self.M0)
+        tree = nodelib.Node(self.M0)
         
         # Initialize unprocessed
-        unprocessed : list[Node] = [tree]
-        processed : list[Node] = []
+        unprocessed : list[nodelib.Node] = [tree]
+        processed : list[nodelib.Node] = []
         
         while (unprocessed != []):
             node = unprocessed[0]
@@ -42,8 +42,21 @@ class PetriNet:
                 node.find_all_child(self)
                 for transition, new_node in node.transitions.items():
                     unprocessed.append(new_node)
-                    # if there is a path between M3 -> M1 with M3 < M2
-                        # if M3[p] < M2[i] then M2[i] = inf
+                    
+                    # if there is a path between parent_node -> node with parent_node < new_node
+                        # if parent_node[p] < new_node[i] then new_node[i] = inf
+                    parent_node = node.parent
+                    while (parent_node is not None):
+                        if (not parent_node < new_node):
+                            parent_node = parent_node.parent
+                        else:
+                            break
+                    
+                    if parent_node is not None:
+                        for i, value in enumerate(new_node):
+                            if parent_node[i] < value:
+                                new_node[i] = -1
+                                
                 unprocessed.remove(node)
                 processed.append(node)
         return tree

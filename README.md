@@ -14,7 +14,7 @@ I represent the inhibition of places on transition
 
 # TODO:
     X Adapt PetriNet.transition to work with infinte (negative value)
-    - Implement Tree with
+    X Implement Tree with
         - node : Markings (M and M0...)
         - edge : dict = {t -> node}          
     - Implement path finding algo

@@ -1,7 +1,7 @@
 import numpy as np
 from node import Node
 from petriNetsClasses import PetriNet
-from dotGraphRenderer import create_dot_graph_petrinet, create_dot_graph_tree, render_dot_graph, renderDotGraph
+from dotGraphRenderer import create_dot_graph_petrinet, create_dot_graph_tree, render_dot_graph
 
 
 def main():
