@@ -53,5 +53,26 @@ def create_dot_graph_tree(tree: Node):
         unprocessed.remove(node)
     return dot
 
+def create_dot_graph_tree_with_id(tree: Node):
+    def pstr(i):
+        return 'p' + str(i)
+    def tstr(i):
+        return 't' + str(i)
+    def idstr(i):
+        return str(id(i))
+    
+    dot = graphviz.Digraph(comment='Graph')
+    unprocessed : list[Node] = [tree]
+    dot.node(idstr(tree),label=str(tree))
+    
+    while (unprocessed != []):
+        node = unprocessed[0]
+        for transition, new_node in node.transitions.items():
+            unprocessed.append(new_node)
+            dot.node(idstr(new_node),label=str(new_node))
+            dot.edge(idstr(node),idstr(new_node),label=tstr(transition))
+        unprocessed.remove(node)
+    return dot
+
 def render_dot_graph(dot):
     dot.render(directory='digraph-output', view=False) 
