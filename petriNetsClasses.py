@@ -57,6 +57,6 @@ class PetriNet:
                             if parent_node.marking[i] < value:
                                 new_node.marking[i] = -1
                                 
-                unprocessed.remove(node)
-                processed.append(node)
+            unprocessed.remove(node)
+            processed.append(node)
         return tree
