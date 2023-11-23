@@ -20,8 +20,8 @@ def main():
     M0 = np.array([1, 1, 0, 0, 0, 0])
 
     PT = PetriNet(Wpt,Wtp,M0)
-    render_dot_graph(create_dot_graph_petrinet(PT))
     tree = PT.construct_CT()
+    render_dot_graph(create_dot_graph_petrinet(PT))
 
 if __name__ == "__main__":
     main()

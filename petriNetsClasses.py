@@ -53,9 +53,9 @@ class PetriNet:
                             break
                     
                     if parent_node is not None:
-                        for i, value in enumerate(new_node):
-                            if parent_node[i] < value:
-                                new_node[i] = -1
+                        for i, value in enumerate(new_node.marking):
+                            if parent_node.marking[i] < value:
+                                new_node.marking[i] = -1
                                 
                 unprocessed.remove(node)
                 processed.append(node)

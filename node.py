@@ -10,10 +10,41 @@ class Node:
         self.parent : Node = None
     
     def __eq__(self, __value: object) -> bool:
-        return np.all(self.marking == __value.marking)
+        if self.marking.shape != __value.marking.shape:
+            return False
+        
+        for i in range(len(self.marking)):
+            
+            if self.marking[i] >= 0:  # non inf value
+                if self.marking[i] != __value.marking[i]:
+                    return False
+                
+            else:  # inf value
+                if __value.marking[i] >= 0:
+                    return False
+                
+        return True
     
     def __ge__(self, __value: object) -> bool:
-        return np.all(self.marking >= __value.marking)
+        if self.marking.shape != __value.marking.shape:
+            return False
+        
+        for i in range(len(self.marking)):
+            
+            if self.marking[i] >= 0:  # non inf value
+                if __value.marking[i] >= 0: #  non inf value
+                    if self.marking[i] < __value.marking[i]:
+                        return False
+                else:  # inf value
+                    return False
+                
+            else:  # inf value
+                pass  # inf value is always greater or equal than everything
+                
+        return True
+    
+    def __repr__(self) -> str:
+        return self.__str__()
     
     def __str__(self) -> str:
          return str(self.marking)
