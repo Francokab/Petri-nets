@@ -74,5 +74,5 @@ def create_dot_graph_tree_with_id(tree: Node):
         unprocessed.remove(node)
     return dot
 
-def render_dot_graph(dot):
-    dot.render(directory='digraph-output', view=False) 
+def render_dot_graph(dot, name = "Digrah"):
+    dot.render(filename=name+".gv", directory='digraph-output', view=False) 

@@ -21,8 +21,8 @@ def main():
 
     PT = PetriNet(Wpt,Wtp,M0)
     tree = PT.construct_CT()
-    render_dot_graph(create_dot_graph_petrinet(PT))
-    render_dot_graph(create_dot_graph_tree_with_id(tree))
+    render_dot_graph(create_dot_graph_petrinet(PT), "Petri_Net")
+    render_dot_graph(create_dot_graph_tree_with_id(tree), "Converability_Tree")
 
 if __name__ == "__main__":
     main()
