@@ -7,6 +7,7 @@ class PetriNet:
     Wpt: np.ndarray
     Wtp: np.ndarray
     M0: np.ndarray
+    I: np.ndarray | None = None
 
     @property
     def Np(self):
