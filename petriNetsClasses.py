@@ -63,10 +63,22 @@ class PetriNet:
         return tree
 
     def PTI_to_PT(self):
-        pass
-        # detect Inhbition
+        
+        if(type(self.I) == type(None)):
+            return 0
+        else:
+            temp = np.zeros((self.Wtp.shape[0],self.Wtp.shape[1]+1))
+            temp[:,:-1] = self.Wtp
+            self.Wtp = temp
+
+            temp = np.zeros((self.Wpt.shape[0]+1,self.Wpt.shape[1]))
+            temp[:-1,:] = self.Wpt
+            self.Wpt = temp
+
+
+        # detect Inhbition ok
         # if there is inhbition.
-            # add new line and column
+            # add new line and column ok
             # loop through them and fill them with W(pb,t) = W(t,p) and ...
             # chose a b
             # W(t',p) = W(p,t') = b - I(p,t) if I(p,t) not inf

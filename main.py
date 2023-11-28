@@ -23,7 +23,10 @@ def main():
                   [-1, -1, -1, -1],
                   [-1, -1, -1, -1],],dtype=int)
 
-    PT = PetriNet(Wpt,Wtp,M0)
+    PT = PetriNet(Wpt,Wtp,M0, None)
+
+    PT.PTI_to_PT()
+
     tree = PT.construct_CT()
     render_dot_graph(create_dot_graph_petrinet(PT), "Petri_Net")
     render_dot_graph(create_dot_graph_tree_with_id(tree), "Converability_Tree")
