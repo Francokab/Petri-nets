@@ -61,3 +61,13 @@ class PetriNet:
             unprocessed.remove(node)
             processed.append(node)
         return tree
+
+    def PTI_to_PT(self):
+        pass
+        # detect Inhbition
+        # if there is inhbition.
+            # add new line and column
+            # loop through them and fill them with W(pb,t) = W(t,p) and ...
+            # chose a b
+            # W(t',p) = W(p,t') = b - I(p,t) if I(p,t) not inf
+            # check if no problem inbition
