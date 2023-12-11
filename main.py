@@ -36,7 +36,7 @@ def main():
                     [0, 0, 1],
                     [1, 0, 0],],dtype=int)
     
-    M0 = np.array([1,0,0])
+    M0 = np.array([2,0,0])
     
     I = np.array([[0, 5, -1, -1],
                   [-1, -1, -1, -1],
@@ -44,6 +44,8 @@ def main():
     
 
     PT = PetriNet(Wpt,Wtp,M0, I)
+    
+    print(PT.transition(M0,2))
 
     PT = PT.PTI_to_PT()
 

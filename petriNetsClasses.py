@@ -21,8 +21,12 @@ class PetriNet:
         Mout = M.copy()
         Np = Mout.shape[0]
         for i in range(Np):
-            if Mout[i] > self.I[i,t]:
-                return None
+            if self.I is not None:
+                if self.I[i,t] < 0: #is inf
+                    pass
+                elif Mout[i] > self.I[i,t]:
+                    return None
+            
             if Mout[i] >= 0:  # not inf
                 if Mout[i] - self.Wpt[i,t] < 0:  # check if transition is not possible
                     return None
@@ -130,6 +134,7 @@ class PetriNet:
                             temp_value = b - out_PT.I[index_place,index_transition]
                             out_PT.Wtp[index_transition,-1] = temp_value
                             out_PT.Wpt[-1,index_transition] = temp_value
+        out_PT.I = None
         return out_PT
                 
 
