@@ -80,10 +80,9 @@ class PetriNet:
             node = unprocessed[0]
             if node not in processed:
                 node.find_all_child_with_none(self)
-                for transition, new_node in node.transitions.items():
+                for transition, new_node in list(node.transitions.items()):
                     if new_node.marking is None:
                         check_inhbition = False
-                        #(node.marking[p] > I[p,transition])
                         if PTI.I[p,transition] < 0:
                             check_inhbition = False
                         else:
@@ -100,9 +99,7 @@ class PetriNet:
                         if not(check_transition or check_inhbition):
                             print("Incorrect Bound")
                             return None
-
-
-
+                        del node.transitions[transition]
                     else:
                         unprocessed.append(new_node)
                         

@@ -19,7 +19,7 @@ def createPT1():
 
     M0 = np.array([1, 1, 0, 0, 0, 0])
     
-    I = np.array([[0, 5, -1, -1],
+    I = np.array([[-1, -1, -1, -1],
                   [-1, -1, -1, -1],
                   [-1, -1, -1, -1],
                   [-1, -1, -1, -1],
@@ -52,7 +52,7 @@ def createPT2():
 
 def main():
 
-    PTI = createPT2()
+    PTI = createPT1()
     render_dot_graph(create_dot_graph_petrinet(PTI), "Petri_Net_inhib")
     PT = PTI.PTI_to_PT(6)
     render_dot_graph(create_dot_graph_petrinet(PT), "Petri_Net")
