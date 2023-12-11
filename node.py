@@ -43,6 +43,18 @@ class Node:
                 
         return True
     
+    def __gt__(self, __value: object) -> bool:
+        return (self >= __value and not self == __value)
+    
+    def __le__(self, __value: object) -> bool:
+        return (__value >= self)
+    
+    def __lt__(self, __value: object) -> bool:
+        return (__value > self)
+    
+    def __ne__(self, __value: object) -> bool:
+        return (not self == __value)
+    
     def __repr__(self) -> str:
         return self.__str__()
     
