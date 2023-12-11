@@ -21,6 +21,8 @@ class PetriNet:
         Mout = M.copy()
         Np = Mout.shape[0]
         for i in range(Np):
+            if Mout[i] > self.I[i,t]:
+                return None
             if Mout[i] >= 0:  # not inf
                 if Mout[i] - self.Wpt[i,t] < 0:  # check if transition is not possible
                     return None

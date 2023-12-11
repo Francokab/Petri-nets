@@ -13,9 +13,3 @@ I represent the inhibition of places on transition
     negative value are infinite
 
 # TODO:
-    X Adapt PetriNet.transition to work with infinte (negative value)
-    X Implement Tree with
-        - node : Markings (M and M0...)
-        - edge : dict = {t -> node}          
-    - Implement path finding algo
-    - Implement CT construction algo
