@@ -68,7 +68,7 @@ class PetriNet:
             processed.append(node)
         return tree
     
-    def construct_CT_with_bounds(self, b, p_index):
+    def construct_CT_with_bounds(self, p, PTI):
         # Initialize tree
         tree = nodelib.Node(self.M0)
         
@@ -79,25 +79,46 @@ class PetriNet:
         while (unprocessed != []):
             node = unprocessed[0]
             if node not in processed:
-                node.find_all_child(self)
+                node.find_all_child_with_none(self)
                 for transition, new_node in node.transitions.items():
-                    if new_node.marking[p_index] > b:
-                        print("Incorrect Bound")
-                        return None
-                    
-                    unprocessed.append(new_node)
-                    
-                    parent_node = node.parent
-                    while (parent_node is not None):
-                        if (not parent_node < new_node):
-                            parent_node = parent_node.parent
+                    if new_node.marking is None:
+                        check_inhbition = False
+                        #(node.marking[p] > I[p,transition])
+                        if PTI.I[p,transition] < 0:
+                            check_inhbition = False
                         else:
-                            break
-                    
-                    if parent_node is not None:
-                        for i, value in enumerate(new_node.marking):
-                            if parent_node.marking[i] < value:
-                                new_node.marking[i] = -1
+                            if node.marking[p] < 0:
+                                check_inhbition = True
+                            else:
+                                check_inhbition = node.marking[p] > PTI.I[p,transition]
+
+                        check_transition = False
+                        for q in range(PTI.Np):
+                            if(node.marking[q] < PTI.Wpt[q,transition]):
+                                check_transition = True
+                        
+                        if not(check_transition or check_inhbition):
+                            print("Incorrect Bound")
+                            return None
+
+
+
+                    else:
+                        unprocessed.append(new_node)
+                        
+                        parent_node = node.parent
+                        while (parent_node is not None):
+                            check_a = new_node >= parent_node
+                            check_b = new_node == parent_node
+                            if not (check_a and not check_b):
+                                parent_node = parent_node.parent
+                            else:
+                                break
+                        
+                        if parent_node is not None:
+                            for i, value in enumerate(new_node.marking):
+                                if parent_node.marking[i] < value:
+                                    new_node.marking[i] = -1
                                 
             unprocessed.remove(node)
             processed.append(node)
@@ -125,7 +146,7 @@ class PetriNet:
                     temp[:-1] = out_PT.M0
                     out_PT.M0 = temp
 
-                    b = 6 # test
+                    b = 50 # test
                     out_PT.M0[-1] = b - out_PT.M0[index_place]
                     for index_transition in range(out_PT.Nt):
                         out_PT.Wtp[index_transition,-1] = out_PT.Wpt[index_place, index_transition]
