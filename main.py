@@ -53,15 +53,12 @@ def createPT2():
 def main():
 
     PTI = createPT2()
-
+    render_dot_graph(create_dot_graph_petrinet(PTI), "Petri_Net_inhib")
     PT = PTI.PTI_to_PT()
-
+    render_dot_graph(create_dot_graph_petrinet(PT), "Petri_Net")
+    
     tree = PT.construct_CT_with_bounds(0, PTI)
-    print("YOUHOU ")
     render_dot_graph(create_dot_graph_tree_with_id(tree), "Converability_Tree")
-
-    print(PT.Wtp)
-    print(PT.Wpt)
     
     # tree = PT.construct_CT()
     # render_dot_graph(create_dot_graph_petrinet(PT), "Petri_Net")

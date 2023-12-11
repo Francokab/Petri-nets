@@ -6,6 +6,7 @@ from node import Node
 def create_dot_graph_petrinet(PT: PetriNet):
     Wpt = PT.Wpt
     Wtp = PT.Wtp
+    I = PT.I
 
     def pstr(i):
         return 'p' + str(i)
@@ -31,6 +32,12 @@ def create_dot_graph_petrinet(PT: PetriNet):
                     dot.edge(tstr(t),pstr(p), label=str(Wtp[t,p]))
                 else:
                     dot.edge(tstr(t),pstr(p))
+            if I is not None:
+                if I[p,t] >= 0:
+                    if I[p,t] != 0:
+                        dot.edge(pstr(p),tstr(t), label=str(Wpt[p,t]), shape="odot")
+                    else:
+                        dot.edge(pstr(p),tstr(t), shape="odot")
 
     return dot
 
@@ -67,10 +74,11 @@ def create_dot_graph_tree_with_id(tree: Node):
     
     while (unprocessed != []):
         node = unprocessed[0]
-        for transition, new_node in node.transitions.items():
-            unprocessed.append(new_node)
-            dot.node(idstr(new_node),label=str(new_node))
-            dot.edge(idstr(node),idstr(new_node),label=tstr(transition))
+        if node is not None:
+            for transition, new_node in node.transitions.items():
+                unprocessed.append(new_node)
+                dot.node(idstr(new_node),label=str(new_node))
+                dot.edge(idstr(node),idstr(new_node),label=tstr(transition))
         unprocessed.remove(node)
     return dot
 
