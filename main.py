@@ -5,6 +5,7 @@ from dotGraphRenderer import create_dot_graph_petrinet, create_dot_graph_tree, c
 
 
 def main():
+    """
     Wpt = np.array([[1, 0, 0, 0],
                     [1, 0, 1, 0],
                     [0, 1, 0, 0],
@@ -21,16 +22,41 @@ def main():
     
     I = np.array([[0, 5, -1, -1],
                   [-1, -1, -1, -1],
+                  [-1, -1, -1, -1],
+                  [-1, -1, -1, -1],
+                  [-1, -1, -1, -1],
+                  [-1, -1, -1, -1]],dtype=int)
+    """
+    Wpt = np.array([[0, 0, 2, 0],
+                    [0, 0, 0, 1],
+                    [0, 0, 0, 0],],dtype=int)
+    
+    Wtp = np.array([[0, 0, 0],
+                    [0, 0, 0],
+                    [0, 0, 1],
+                    [1, 0, 0],],dtype=int)
+    
+    M0 = np.array([1,0,0])
+    
+    I = np.array([[0, 5, -1, -1],
+                  [-1, -1, -1, -1],
                   [-1, -1, -1, -1],],dtype=int)
+    
 
-    PT = PetriNet(Wpt,Wtp,M0, None)
+    PT = PetriNet(Wpt,Wtp,M0, I)
 
-    PT.PTI_to_PT()
+    PT = PT.PTI_to_PT()
 
+    tree = PT.construct_CT_with_bounds(6, 0)
+    render_dot_graph(create_dot_graph_tree_with_id(tree), "Converability_Tree")
+
+    print(PT.Wtp)
+    print(PT.Wpt)
+"""
     tree = PT.construct_CT()
     render_dot_graph(create_dot_graph_petrinet(PT), "Petri_Net")
     render_dot_graph(create_dot_graph_tree_with_id(tree), "Converability_Tree")
-
+"""
 if __name__ == "__main__":
     main()
 
