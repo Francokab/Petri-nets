@@ -124,7 +124,7 @@ class PetriNet:
             processed.append(node)
         return tree
 
-    def PTI_to_PT(self):
+    def PTI_to_PT(self, b_force = 5):
         out_PT = PetriNet(self.Wpt.copy(), self.Wtp.copy(), self.M0.copy(), self.I.copy())
         if(out_PT.I is not None):
             for index_place, ligne_I in enumerate(out_PT.I):
@@ -146,7 +146,8 @@ class PetriNet:
                     temp[:-1] = out_PT.M0
                     out_PT.M0 = temp
 
-                    b = 50 # test
+                    b = b_force # test
+                    print("Debug : place ",index_place, ", b choisi : ", b)
                     out_PT.M0[-1] = b - out_PT.M0[index_place]
                     for index_transition in range(out_PT.Nt):
                         out_PT.Wtp[index_transition,-1] = out_PT.Wpt[index_place, index_transition]
