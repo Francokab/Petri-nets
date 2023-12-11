@@ -35,9 +35,9 @@ def create_dot_graph_petrinet(PT: PetriNet):
             if I is not None:
                 if I[p,t] >= 0:
                     if I[p,t] != 0:
-                        dot.edge(pstr(p),tstr(t), label=str(Wpt[p,t]), shape="odot")
+                        dot.edge(pstr(p),tstr(t), label=str(I[p,t]), arrowhead="odot")
                     else:
-                        dot.edge(pstr(p),tstr(t), shape="odot")
+                        dot.edge(pstr(p),tstr(t), arrowhead="odot")
 
     return dot
 

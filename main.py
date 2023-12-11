@@ -54,7 +54,7 @@ def main():
 
     PTI = createPT2()
     render_dot_graph(create_dot_graph_petrinet(PTI), "Petri_Net_inhib")
-    PT = PTI.PTI_to_PT()
+    PT = PTI.PTI_to_PT(6)
     render_dot_graph(create_dot_graph_petrinet(PT), "Petri_Net")
     
     tree = PT.construct_CT_with_bounds(0, PTI)
