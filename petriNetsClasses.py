@@ -36,6 +36,7 @@ class PetriNet:
                 pass
         return Mout
     
+    # Create Coverability Tree
     def construct_CT(self):
         # Initialize tree
         tree = nodelib.Node(self.M0)
@@ -70,6 +71,7 @@ class PetriNet:
             processed.append(node)
         return tree
     
+    # Create Coverabilty Tree and check if the selected bound is correct
     def construct_CT_with_bounds(self, p, PTI):
         # Initialize tree
         tree = nodelib.Node(self.M0)
@@ -124,6 +126,7 @@ class PetriNet:
             processed.append(node)
         return tree
 
+    # transform a PTI bounded into a PT
     def PTI_to_PT(self, b_force = 5):
         out_PT = PetriNet(self.Wpt.copy(), self.Wtp.copy(), self.M0.copy(), self.I.copy())
         if(out_PT.I is not None):
