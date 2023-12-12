@@ -61,14 +61,16 @@ class Node:
     def __str__(self) -> str:
          return str(self.marking)
     
-    def find_all_child(self, PT : PetriNet):
+    # add all possible transition to the transition dict
+    def find_all_child(self, PT : PetriNet): 
         possible_transition = [(PT.transition(self.marking, t), t) for t in range(PT.Nt) if PT.transition(self.marking, t) is not None]
         for (new_marking, transition) in possible_transition:
                 new_node = Node(new_marking)
                 self.transitions[transition] = new_node
                 new_node.parent = self
 
-    def find_all_child_with_none(self, PT : PetriNet):
+    # add all transition to the transition dict
+    def find_all_child_with_none(self, PT : PetriNet): 
         possible_transition = [(PT.transition(self.marking, t), t) for t in range(PT.Nt)]
         for (new_marking, transition) in possible_transition:
                 new_node = Node(new_marking)

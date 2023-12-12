@@ -74,21 +74,18 @@ def createPT3():
 
 
 def main():
-
     PTI = createPT2()
     render_dot_graph(create_dot_graph_petrinet(PTI), "Petri_Net_inhib")
+    
     PT = PTI.PTI_to_PT(7)
     render_dot_graph(create_dot_graph_petrinet(PT), "Petri_Net")
 
+
     tree_PTI = PTI.construct_CT()
-    tree_PT = PT.construct_CT_with_bounds(0, PTI)
     render_dot_graph(create_dot_graph_tree_with_id(tree_PTI), "Converability_Tree_PTI")
+    
+    tree_PT = PT.construct_CT_with_bounds(0, PTI)
     render_dot_graph(create_dot_graph_tree_with_id(tree_PT), "Converability_Tree_PT")
-
-    # tree = PT.construct_CT()
-    # render_dot_graph(create_dot_graph_petrinet(PT), "Petri_Net")
-    # render_dot_graph(create_dot_graph_tree_with_id(tree), "Converability_Tree")
-
 
 if __name__ == "__main__":
     main()

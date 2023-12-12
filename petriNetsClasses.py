@@ -16,8 +16,9 @@ class PetriNet:
     @property
     def Nt(self):
         return self.Wpt.shape[1]
-        
-    def transition(self, M: np.ndarray, t: int) -> np.ndarray | None:
+    
+    # tir d'une transition depuis un marking, retourne None si ce n'est pas possible
+    def transition(self, M: np.ndarray, t: int) -> np.ndarray | None: 
         Mout = M.copy()
         Np = Mout.shape[0]
         for i in range(Np):
@@ -43,6 +44,7 @@ class PetriNet:
         unprocessed : list[nodelib.Node] = [tree]
         processed : list[nodelib.Node] = []
         
+        #Breadth first search
         while (unprocessed != []):
             node = unprocessed[0]
             if node not in processed:
@@ -51,14 +53,14 @@ class PetriNet:
                     unprocessed.append(new_node)
                     
                     # if there is a path between parent_node -> node with parent_node < new_node
-                        # if parent_node[p] < new_node[i] then new_node[i] = inf
                     parent_node = node.parent
                     while (parent_node is not None):
                         if (not parent_node < new_node):
                             parent_node = parent_node.parent
                         else:
                             break
-                    
+                        
+                    # then if parent_node[i] < new_node[i] then new_node[i] = inf
                     if parent_node is not None:
                         for i, value in enumerate(new_node.marking):
                             if parent_node.marking[i] < value:
@@ -82,6 +84,7 @@ class PetriNet:
                 node.find_all_child_with_none(self)
                 for transition, new_node in list(node.transitions.items()):
                     if new_node.marking is None:
+                        # check if the transition is not possible because its a valid inhbition
                         check_inhbition = False
                         if PTI.I[p,transition] < 0:
                             check_inhbition = False
@@ -90,12 +93,12 @@ class PetriNet:
                                 check_inhbition = True
                             else:
                                 check_inhbition = node.marking[p] > PTI.I[p,transition]
-
+                        # check if the transition is not possible because there isn't enough token
                         check_transition = False
                         for q in range(PTI.Np):
                             if(node.marking[q] < PTI.Wpt[q,transition]):
                                 check_transition = True
-                        
+                        # if its not those two then we have an Incorrect Bound
                         if not(check_transition or check_inhbition):
                             print("Incorrect Bound")
                             return None
@@ -131,6 +134,7 @@ class PetriNet:
                         ligne_non_inf = True
                 
                 if ligne_non_inf:
+                    # Add new lines to Wtp, Wpt and M0
                     temp = np.zeros((out_PT.Wtp.shape[0],out_PT.Wtp.shape[1]+1))
                     temp[:,:-1] = out_PT.Wtp
                     out_PT.Wtp = temp
@@ -147,9 +151,12 @@ class PetriNet:
                     print("Debug : place ",index_place, ", b choisi : ", b)
                     out_PT.M0[-1] = b - out_PT.M0[index_place]
                     for index_transition in range(out_PT.Nt):
+                        # the new line is filled with W(pb,t) = W(t,p) and W(t,b) = W(p,t)
                         out_PT.Wtp[index_transition,-1] = out_PT.Wpt[index_place, index_transition]
                         out_PT.Wpt[-1,index_transition] = out_PT.Wtp[index_transition, index_place]
-                        if out_PT.I[index_place,index_transition] >= 0:
+                        
+                        if out_PT.I[index_place,index_transition] >= 0: # if the inhbition is not inf
+                            # W(t,p') = W(p',t) = b - I(p,t)
                             temp_value = b - out_PT.I[index_place,index_transition]
                             out_PT.Wtp[index_transition,-1] = temp_value
                             out_PT.Wpt[-1,index_transition] = temp_value
